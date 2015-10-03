@@ -1,0 +1,64 @@
+<style>
+body {
+  background-color: black;
+  color: white;
+}
+</style>
+
+<div class="row" style="margin-top: 3em;">
+  <h1>아이디어 등록</h1>
+  <br>
+  <br>
+  <%= form_for @idea, url: {action: "create"}, html: {class: "col s12", method: "post", multipart: "true"} do |form| %>
+  
+    <div class="row">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">label</i>
+        <%= form.text_field :name, class: "validate", id: "name", required: true %>
+        <label for="name">이름</label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">vpn_key</i>
+        <%= form.password_field :password, class: "validate", id: "password", required: true %>
+        <label for="password">비밀번호</label>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">mode_edit</i>
+        <%= form.text_field :summary, class: "validate", placeholder: "짧은 서비스 설명", id: "summary", length: "36", required: true %>
+        <label for="name">한줄 요약</label>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">description</i>
+        <%= form.text_area :description, class: "materialize-textarea", id: "description" %>
+        <label for="description">설명</label>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col s12">
+        <div class="file-field input-field">
+          <div class="btn white black-text">
+            <span>이미지</span>
+            <%= form.file_field :images, multiple: true, accept: "image/*" %>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="여러장 가능">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <button class="btn waves-effect right white black-text" type="submit">작성
+      <i class="material-icons right">send</i>
+    </button>
+  <% end %>
+</div>
+
+<script>
+</script>

@@ -7,3 +7,18 @@ body {
   background-size: cover;
 }
 </style>
+
+<div class="row" style="background-color: rgba(255,255,255,0.5); margin-top: 7em;">
+  <div class="col s12">
+    <h1 class="center" style="margin: 1em 0 2em 0;">벤처창업 웹 프로그래밍</h1>
+      <div class="center" style="margin: 4em;">
+      <% if user_signed_in? %>
+        <a href="/ideas/board" class="waves-effect waves-light btn-large black white-text">Start</a>
+      <% else %>
+        <%= link_to "로그인", new_user_session_path, class: "waves-effect waves-light btn black" %> &nbsp 
+        <%= link_to "회원가입", new_user_registration_path, class: "waves-effect waves-light btn black" %>
+      <% end %>
+      
+    </div>
+  </div>
+</div>

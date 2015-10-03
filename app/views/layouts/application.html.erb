@@ -4,6 +4,7 @@
   <title>IDEA!</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
@@ -18,12 +19,13 @@
     <div class="nav-wrapper black white-text">
       <a href="/" class="brand-logo" style="margin-left: 1em;">Home</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-      	<li><a href="badges.html">아이디어s</a></li>
+      	<li><a href="/ideas/board">아이디어s</a></li>
       	 <% if user_signed_in? %>
+      	   <li><a>마이 페이지</a></li>
       	   <li><%= link_to "로그아웃", destroy_user_session_path, method: "delete" %></li>
       	 <% else %>
-      	   <li><%= link_to "로그인", new_user_session_path, method: "delete" %></li>
-      	   <li><%= link_to "회원가입", new_user_registration_path, method: "delete" %></li>
+      	   <li><%= link_to "로그인", new_user_session_path %></li>
+      	   <li><%= link_to "회원가입", new_user_registration_path %></li>
       	 <% end %>
       </ul>
     </div>
