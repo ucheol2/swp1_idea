@@ -11,14 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003162227) do
+ActiveRecord::Schema.define(version: 20151003164902) do
+
+  create_table "idea_users", force: :cascade do |t|
+    t.integer  "idea_id"
+    t.integer  "user_id"
+    t.boolean  "favorite"
+    t.boolean  "owned"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "ideas", force: :cascade do |t|
-    t.integer  "user_id"
     t.string   "name"
     t.string   "password"
     t.string   "summary"
     t.text     "description"
+    t.integer  "hit"
+    t.integer  "view"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -48,5 +58,12 @@ ActiveRecord::Schema.define(version: 20151003162227) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "view_counters", force: :cascade do |t|
+    t.integer  "idea_id"
+    t.string   "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end

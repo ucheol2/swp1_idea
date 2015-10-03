@@ -2,11 +2,12 @@ class CreateIdeas < ActiveRecord::Migration
   def change
     create_table :ideas do |t|
       
-      t.integer :user_id
       t.string :name
       t.string :password
       t.string :summary
       t.text :description
+      t.integer :hit
+      t.integer :view
 
       t.timestamps null: false
     end
