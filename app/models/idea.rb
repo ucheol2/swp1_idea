@@ -16,6 +16,7 @@ class Idea < ActiveRecord::Base
       result << item.ip_address
     end
     self.view = result.uniq.count
+    self.save
   end
   
   def favor(curr_user)
@@ -54,6 +55,17 @@ class Idea < ActiveRecord::Base
     end
   end
   
+  def self.searching_by(arg)
+    result = []
+    arg = arg.gsub(/\s+/, "").downcase
+    self.all.each do |item|
+      if item.name.gsub(/\s+/, "").downcase.include? arg or item.summary.gsub(/\s+/, "").downcase.include? arg or item.description.gsub(/\s+/, "").downcase.include? arg
+        result << item
+      end
+    end
+    return result
+  end
+  
   def favortie_users
     return self.users.where(idea_users: {favorite: true})
   end
@@ -65,4 +77,5 @@ class Idea < ActiveRecord::Base
   def owned_users
     return self.users.where(idea_users: {owned: true})
   end
+  
 end

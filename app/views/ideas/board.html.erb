@@ -8,33 +8,57 @@ body {
 }
 </style>
 
-<div class="center white-text" style="background-color: rgba(0,0,0,0.7); padding: 1em; margin-top: 4em;">
+<div class="center white-text row" style="background-color: rgba(0,0,0,0.7); padding: 1em; margin-top: 4em;">
   <h1>아이디어 게시판</h1>
   <a href="/ideas/new" class="waves-effect btn-flat white"><b>아이디어 등록</b></a>
 </div>
 
-<ul class="collection">
-  <% @ideas.each do |item| %>
-    <li class="collection-item avatar">
-      <a href="/ideas/detail/<%= item.id %>" class="black-text">
-        <% if item.photos.first %>
-          <img src="<%= item.photos.first.img.thumb.url %>" alt="" class="circle">
-        <% else %>
-          <i class="material-icons circle red">image</i>
-        <% end %>
-        <span class="title"><b><%= item.name %></b></span>
-        <p><%= item.summary%> <br>
-           Second Line
-        </p>
-        <a data-idea="<%= item.id %>" href="#!" class="favorite_btn secondary-content">
-          <% if item.favortie_users.include? current_user %>
-            <i class="material-icons red-text">star</i>
+<div class="row" style="background-color: rgba(0,0,0,0.7); padding: 1em; margin-top: 1em;" >
+  <div class="col s12">
+    <form id="search_form" action="/ideas/board" method="get">
+      <div class="row white-text">
+        <div class="input-field col s7 offset-s1">
+          <input id="searching" type="text" name="word">
+          <label for="searching">아이디어 찾기</label>
+        </div>
+        <div class="col s4">
+          <button class="btn waves-effect waves-dark white black-text" type="submit" name="sorting" value="<%= params[:sorting]%>">검색
+            <i class="material-icons right hide-on-med-and-down">search</i>
+          </button>
+        </div>
+      </div>
+      <button type="submit" name="sorting" id="recent" value="recent" class="sort_btn waves-effect waves-dark btn black-text">최신순</button>
+      <button type="submit" name="sorting" id="view" value="view" class="sort_btn waves-effect waves-dark btn black-text">조회순</button>
+      <button type="submit" name="sorting" id="like" value="like" class="sort_btn waves-effect waves-dark btn black-text">좋아요순</button>
+    </form>
+  </div>
+</div>
+<ul id="idea_list" class="collection">
+  <% unless @ideas.empty? %>
+    <% @ideas.each do |item| %>
+      <li class="collection-item avatar">
+        <a href="/ideas/detail/<%= item.id %>" class="black-text">
+          <% if item.photos.first %>
+            <img src="<%= item.photos.first.img.thumb.url %>" alt="" class="circle">
           <% else %>
-            <i class="material-icons red-text">star_border</i>
+            <i class="material-icons circle red">image</i>
           <% end %>
+          <span class="title"><b><%= item.name %></b></span>
+          <p><%= item.summary%> <br>
+             조회수: <%= item.view %> | 좋아요: <%= item.like %> | 댓글: <%= item.replies.count %>
+          </p>
+          <a data-idea="<%= item.id %>" href="#!" class="favorite_btn secondary-content">
+            <% if item.favortie_users.include? current_user %>
+              <i class="material-icons red-text">star</i>
+            <% else %>
+              <i class="material-icons red-text">star_border</i>
+            <% end %>
+          </a>
         </a>
-      </a>
-    </li>
+      </li>
+    <% end %>
+  <% else %>
+    <h2 class="center white-text" style="background-color: rgba(0,0,0,0.7);">해당 아이디어를 찾을 수 없습니다.</h2>
   <% end %>
 </ul>
 
@@ -58,5 +82,16 @@ $(document).ready(function(){
       }
     });
   });
+  
+  <% if params[:sorting] == "view" %>
+    $('#view').css('background-color', '#808080')
+    console.log(1)
+  <% elsif params[:sorting] == "like" %>
+    $('#like').css('background-color', '#808080')
+    console.log(2)
+  <% else %>
+    $('#recent').css('background-color', '#808080')
+    console.log(3)
+  <% end %>
 });
 </script>

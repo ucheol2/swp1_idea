@@ -74,3 +74,42 @@
 .re_reply_form .row {
   margin: 0;
 }
+
+.input-field .prefix.active {
+  color: #FF6262;
+}
+.input-field input[type=text]:focus + label {
+  color: #FF6262;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #FF6262;
+  box-shadow: 0 1px 0 0 #FF6262;
+}
+.input-field input[type=password]:focus + label {
+  color: #FF6262;
+}
+/* label underline focus color */
+.input-field input[type=password]:focus {
+  border-bottom: 1px solid #FF6262;
+  box-shadow: 0 1px 0 0 #FF6262;
+}
+textarea.materialize-textarea:focus:not([readonly])+label {
+  color: #FF6262;
+}
+/* label underline focus color */
+.input-field textarea.materialize-textarea:focus {
+  border-bottom: 1px solid #FF6262;
+  box-shadow: 0 1px 0 0 #FF6262;
+}
+.slider .indicators .indicator-item.active {
+  background-color: red;
+}
+
+.sort_btn {
+  background-color: white;
+}
+
+.sort_btn:hover {
+  background-color: #B8B8B8;
+}

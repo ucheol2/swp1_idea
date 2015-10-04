@@ -19,4 +19,5 @@ class MyController < ApplicationController
       format.json { render json: idea.favor(current_user) }
     end
   end
+  
 end

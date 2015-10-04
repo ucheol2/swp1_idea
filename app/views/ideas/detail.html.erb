@@ -1,21 +1,13 @@
 <style>
-.input-field .prefix.active {
-  color: #FF6262;
-}
-.input-field input[type=text]:focus + label {
-  color: #FF6262;
-}
-/* label underline focus color */
-.input-field input[type=text]:focus {
-  border-bottom: 1px solid #FF6262;
-  box-shadow: 0 1px 0 0 #FF6262;
+body {
+  background-image: url("https://s3-ap-northeast-1.amazonaws.com/swp1-idea/html.jpg");
 }
 </style>
 
 <div class="row">
-  <div class="col s12">
-    <h1 class="center"><%= @idea.name %></h1>
-    <h5 class="center">
+  <div class="col s12" style="background-color: rgba(0,0,0,0.5)">
+    <h1 class="center white-text"><%= @idea.name %></h1>
+    <h5 class="center white-text">
       팀 : 
       <% @idea.owned_users.each do |item| %>
         <span style="margin: 0 0.3em 0 0.3em"><%= item.name %></span>

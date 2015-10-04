@@ -4,6 +4,22 @@ class IdeasController < ApplicationController
   
   def board
     @ideas = Idea.all.reverse
+    
+    if params[:sorting]
+      unless params[:word].nil? or params[:word].empty?
+        @ideas = Idea.searching_by(params[:word])
+      end
+      if @ideas
+        if params[:sorting] == "view"
+          @ideas.to_a.sort! { |x,y| y.view <=> x.view }
+        elsif params[:sorting] == "like"
+          @ideas.to_a.sort! { |x,y| y.like <=> x.like }
+        else
+          @ideas.to_a.sort! { |x,y| y.created_at <=> x.created_at }
+        end
+      end
+    end
+    
   end
 
   def detail
@@ -52,5 +68,4 @@ class IdeasController < ApplicationController
     
     redirect_to "/ideas/detail/#{idea.id}"
   end
-  
 end

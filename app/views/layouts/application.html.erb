@@ -21,7 +21,6 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
       	<li><a href="/ideas/board">아이디어s</a></li>
       	 <% if user_signed_in? %>
-      	   <li><a>마이 페이지</a></li>
       	   <li><%= link_to "로그아웃", destroy_user_session_path, method: "delete" %></li>
       	 <% else %>
       	   <li><%= link_to "로그인", new_user_session_path %></li>
