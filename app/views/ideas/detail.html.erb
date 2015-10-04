@@ -13,6 +13,17 @@ body {
         <span style="margin: 0 0.3em 0 0.3em"><%= item.name %></span>
       <% end %>
     </h5>
+    <div class="center">
+      <% if @idea.recruit? %>
+        <span id="recruit_state" class="center recruit_now">
+          팀원 구인중!
+        </span>
+      <% else %>
+        <span id="recruit_state" class="center recruit_end">
+          팀원 구인 종료
+        </span>
+      <% end %>
+    </div>
     <br>
     <div class="detail-wrapper">
       <div class="right">
@@ -121,7 +132,12 @@ body {
       <div class="center" style="margin-top: 3em;">
         <a href="/ideas/board" class="waves-effect btn-flat white"><b>목록</b></a>
         <% if @idea.owned_users.include? current_user %>
-          <a href="/ideas/edit/<%= @idea.id %>" class="waves-effect btn-flat white"><b>수정하기</b></a>
+          <a href="/ideas/edit/<%= @idea.id %>" class="waves-effect btn-flat white"><b>수정하기</b></a><br><br>
+          <% if @idea.recruit? %>
+            <a id="apply_btn" data-state="true" class="waves-effect btn-flat white"><b>팀원 구하기 중지</b></a>
+          <% else %>
+            <a id="apply_btn" data-state="false" class="waves-effect btn-flat white"><b>팀원 구하기</b></a>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -143,7 +159,6 @@ body {
 
 <script>
 $(document).ready(function(){
-  $('.modal-trigger').leanModal();
   $('.slider').slider({
     height: 500
   });
@@ -309,6 +324,29 @@ $(document).ready(function(){
         dataType: "json"
       });
     }
+  });
+  
+  $('#apply_btn').click(function(event){
+    event.preventDefault();
+    
+    $.ajax({
+      url: "/ideas/recruit",
+      dataType: "json",
+      data: { idea_id: "<%= @idea.id %>" },
+      success: function(data){
+        if (data) {
+          $('#recruit_state').text('팀원 구인중!');
+          $('#recruit_state').removeClass('recruit_end');
+          $('#recruit_state').addClass('recruit_now');
+          $('#apply_btn').text('팀원 구하기 중지');
+        } else {
+          $('#recruit_state').text('팀원 구인 종료');
+          $('#recruit_state').removeClass('recruit_now');
+          $('#recruit_state').addClass('recruit_end');
+          $('#apply_btn').text('팀원 구하기');
+        }
+      }
+    });
   });
   
 });

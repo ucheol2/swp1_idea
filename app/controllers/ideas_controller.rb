@@ -68,4 +68,17 @@ class IdeasController < ApplicationController
     
     redirect_to "/ideas/detail/#{idea.id}"
   end
+  
+  def recruit
+    idea = Idea.find(params[:idea_id].to_i)
+    if idea.owned_users.include? current_user
+      idea.update(recruit: !idea.recruit)
+    end
+    
+    respond_to do |format|
+      format.json {render json: idea.recruit}
+    end
+    
+  end
+  
 end

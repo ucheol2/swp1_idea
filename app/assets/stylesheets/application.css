@@ -113,3 +113,17 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 .sort_btn:hover {
   background-color: #B8B8B8;
 }
+
+.recruit_now {
+  background-color: rgba(16, 255, 0, 0.4);
+  padding: 0.5em;
+  border-radius: 1em;
+  font-weight: bolder;
+}
+
+.recruit_end {
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 0.5em;
+  border-radius: 1em;
+  font-weight: bolder;
+}

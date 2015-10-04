@@ -35,5 +35,52 @@
   <%= yield %>
 </div>
 
+<% if user_signed_in? %>
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red"><i class="material-icons">announcement</i></i></a></li>
+    <li><a href="/ideas/new" class="btn-floating blue"><i class="material-icons">edit</i></a></li>
+    <li><a href="/ideas/board" class="btn-floating green"><i class="material-icons">view_list</i></a></li>
+    <li><a href="#favor_modal" class="btn-floating yellow darken-1 modal-trigger"><i class="material-icons">star</i></a></li>
+  </ul>
+</div>
+
+<div id="favor_modal" class="modal bottom-sheet">
+  <div class="modal-content">
+    <h4>찜 목록</h4>
+    <em class="grey-text">(새로고침하면 업데이트)</em>
+    <ul id="favorite_idea_list" class="collection">
+      <% current_user.favorite_ideas.each do |item| %>
+        <li class="collection-item avatar">
+          <a href="/ideas/detail/<%= item.id %>" class="black-text">
+            <% if item.photos.first %>
+              <img src="<%= item.photos.first.img.thumb.url %>" alt="" class="circle">
+            <% else %>
+              <i class="material-icons circle red">image</i>
+            <% end %>
+            <span class="title"><b><%= item.name %></b></span>
+            <p><%= item.summary%> <br>
+               조회수: <%= item.view %> | 좋아요: <%= item.like %> | 댓글: <%= item.replies.count %>
+            </p>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">닫기</a>
+  </div>
+</div>
+<% end %>
+
+<script>
+$(document).ready(function(){
+  $('.modal-trigger').leanModal();
+});
+</script>
+
 </body>
 </html>

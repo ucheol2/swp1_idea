@@ -45,7 +45,16 @@ body {
           <% end %>
           <span class="title"><b><%= item.name %></b></span>
           <p><%= item.summary%> <br>
-             조회수: <%= item.view %> | 좋아요: <%= item.like %> | 댓글: <%= item.replies.count %>
+            조회수: <%= item.view %> | 좋아요: <%= item.like %> | 댓글: <%= item.replies.count %>
+            <% if item.recruit? %>
+              <span id="recruit_state" class="center recruit_now right">
+                팀원 구인중!
+              </span>
+            <% else %>
+              <span id="recruit_state" class="center recruit_end right">
+                팀원 구인 종료
+              </span>
+            <% end %>
           </p>
           <a data-idea="<%= item.id %>" href="#!" class="favorite_btn secondary-content">
             <% if item.favortie_users.include? current_user %>
