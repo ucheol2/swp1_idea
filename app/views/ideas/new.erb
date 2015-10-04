@@ -84,7 +84,10 @@ $(document).ready(function(){
       return false;
     } else {
       $('#submit_btn').attr("disabled", true);
+      $('#cancle_btn').addClass("disabled");
+      $('#cancle_btn').removeClass("waves-effect");
       $('#loading').css('display','');
+      $('.fixed-action-btn').css('display','none');
     };
   });
 });

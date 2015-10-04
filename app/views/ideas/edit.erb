@@ -9,17 +9,21 @@ body {
   <h1>아이디어 수정</h1>
   <br>
   <br>
-  <div id="loading" class="preloader-wrapper big active" style="display: none;">
-    <div class="spinner-layer spinner-blue-only">
-      <div class="circle-clipper left">
-        <div class="circle"></div>
-      </div><div class="gap-patch">
-        <div class="circle"></div>
-      </div><div class="circle-clipper right">
-        <div class="circle"></div>
+  <div id="loading" style="display: none;">
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
       </div>
     </div>
+    사진 업로드시 다소 시간이 걸립니다.
   </div>
+  
   <%= form_for @idea, url: {action: "modify", id: "#{@idea.id}"}, html: {class: "col s12", method: "post", multipart: "true", id: "new_form"} do |form| %>
   
     <div class="row">
@@ -65,7 +69,7 @@ body {
       </div>
     </div>
     
-    <a href="/ideas/detail/<%= @idea.id %>" class="btn waves-effect right white black-text" style="margin-left: 1em;">취소</a>
+    <a id="cancle_btn" href="/ideas/detail/<%= @idea.id %>" class="btn waves-effect right white black-text" style="margin-left: 1em;">취소</a>
     <button id="submit_btn" class="btn waves-effect right white black-text" type="submit">작성
       <i class="material-icons right">send</i>
     </button>
@@ -83,7 +87,10 @@ $(document).ready(function(){
       return false;
     } else {
       $('#submit_btn').attr("disabled", true);
+      $('#cancle_btn').addClass("disabled");
+      $('#cancle_btn').removeClass("waves-effect");
       $('#loading').css('display','');
+      $('.fixed-action-btn').css('display','none');
     };
   });
 });
