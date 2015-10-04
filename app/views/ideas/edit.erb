@@ -6,7 +6,7 @@ body {
 </style>
 
 <div class="row" style="margin-top: 3em;">
-  <h1>아이디어 등록</h1>
+  <h1>아이디어 수정</h1>
   <br>
   <br>
   <div id="loading" class="preloader-wrapper big active" style="display: none;">
@@ -20,17 +20,17 @@ body {
       </div>
     </div>
   </div>
-  <%= form_for @idea, url: {action: "create"}, html: {class: "col s12", method: "post", multipart: "true", id: "new_form"} do |form| %>
+  <%= form_for @idea, url: {action: "modify", id: "#{@idea.id}"}, html: {class: "col s12", method: "post", multipart: "true", id: "new_form"} do |form| %>
   
     <div class="row">
       <div class="input-field col s6">
         <i class="material-icons prefix">label</i>
-        <%= form.text_field :name, class: "validate", id: "name", required: true %>
+        <%= form.text_field :name, class: "validate", id: "name", required: true, value: @idea.name %>
         <label for="name">이름</label>
       </div>
       <div class="input-field col s6">
         <i class="material-icons prefix">vpn_key</i>
-        <%= form.password_field :password, class: "validate", id: "password", required: true%>
+        <%= form.password_field :password, class: "validate", id: "password", required: true, placeholder: "정확히 입력하세요" %>
         <label for="password">비밀번호</label>
       </div>
     </div>
@@ -38,7 +38,7 @@ body {
     <div class="row">
       <div class="input-field col s12">
         <i class="material-icons prefix">mode_edit</i>
-        <%= form.text_field :summary, class: "validate", placeholder: "짧은 서비스 설명", id: "summary", length: "36", required: true %>
+        <%= form.text_field :summary, class: "validate", placeholder: "짧은 서비스 설명", id: "summary", length: "36", required: true, value: @idea.summary %>
         <label for="name">한줄 요약</label>
       </div>
     </div>
@@ -46,7 +46,7 @@ body {
     <div class="row">
       <div class="input-field col s12">
         <i class="material-icons prefix">description</i>
-        <%= form.text_area :description, class: "materialize-textarea", id: "description" %>
+        <%= form.text_area :description, class: "materialize-textarea", id: "description", value: @idea.description %>
         <label for="description">설명</label>
       </div>
     </div>
@@ -59,7 +59,7 @@ body {
             <%= form.file_field :images, multiple: true, accept: "image/*" %>
           </div>
           <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="여러장 한꺼번에 업로드 가능">
+            <input class="file-path validate" type="text" placeholder="변경하지 않으려면 빈칸으로 남기세요">
           </div>
         </div>
       </div>

@@ -45,11 +45,24 @@ class Idea < ActiveRecord::Base
     return relation.like
   end
   
+  def make_images(photos)
+    self.photos.each do |item|
+      item.destroy
+    end
+    photos.each do |item|
+      Photo.create(idea: self, img: item)
+    end
+  end
+  
   def favortie_users
     return self.users.where(idea_users: {favorite: true})
   end
   
   def liked_users
     return self.users.where(idea_users: {like: true})
+  end
+  
+  def owned_users
+    return self.users.where(idea_users: {owned: true})
   end
 end

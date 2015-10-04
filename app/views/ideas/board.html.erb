@@ -18,7 +18,7 @@ body {
     <li class="collection-item avatar">
       <a href="/ideas/detail/<%= item.id %>" class="black-text">
         <% if item.photos.first %>
-          <img src="<%= item.photos.first.img.url %>" alt="" class="circle">
+          <img src="<%= item.photos.first.img.thumb.url %>" alt="" class="circle">
         <% else %>
           <i class="material-icons circle red">image</i>
         <% end %>

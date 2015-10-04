@@ -32,13 +32,25 @@ class IdeasController < ApplicationController
       IdeaUser.create(idea: idea, user: current_user, owned: true)
     end
     
-    # Image.create(idea: idea, img: params[:idea][:images])
     if params[:idea][:images]
-      params[:idea][:images].each do |item|
-        Photo.create(idea: idea, img: item)
-      end
+      idea.make_images(params[:idea][:images])
     end
     redirect_to "/ideas/board"
+  end
+  
+  def edit
+    @idea = Idea.find(params[:id].to_i)
+  end
+  
+  def modify
+    idea = Idea.find(params[:id].to_i)
+    idea.update(name: params[:idea][:name], password: params[:idea][:password], summary: params[:idea][:summary], description: params[:idea][:description])
+    
+    if params[:idea][:images]
+      idea.make_images(params[:idea][:images])
+    end
+    
+    redirect_to "/ideas/detail/#{idea.id}"
   end
   
 end

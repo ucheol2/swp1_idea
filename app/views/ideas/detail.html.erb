@@ -17,7 +17,7 @@
     <h1 class="center"><%= @idea.name %></h1>
     <h5 class="center">
       팀 : 
-      <% @idea.users.where(idea_users: {owned: true}).each do |item| %>
+      <% @idea.owned_users.each do |item| %>
         <span style="margin: 0 0.3em 0 0.3em"><%= item.name %></span>
       <% end %>
     </h5>
@@ -128,6 +128,9 @@
       </div>
       <div class="center" style="margin-top: 3em;">
         <a href="/ideas/board" class="waves-effect btn-flat white"><b>목록</b></a>
+        <% if @idea.owned_users.include? current_user %>
+          <a href="/ideas/edit/<%= @idea.id %>" class="waves-effect btn-flat white"><b>수정하기</b></a>
+        <% end %>
       </div>
     </div>
     
@@ -149,7 +152,9 @@
 <script>
 $(document).ready(function(){
   $('.modal-trigger').leanModal();
-  $('.slider').slider({});
+  $('.slider').slider({
+    height: 500
+  });
   
   $('#favorite_btn').click(function(){
     
