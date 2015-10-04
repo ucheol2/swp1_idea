@@ -5,6 +5,7 @@ class CreateIdeaUsers < ActiveRecord::Migration
       t.integer :user_id
       t.boolean :favorite
       t.boolean :owned
+      t.boolean :like
 
       t.timestamps null: false
     end

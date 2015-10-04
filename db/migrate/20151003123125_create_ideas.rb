@@ -6,8 +6,9 @@ class CreateIdeas < ActiveRecord::Migration
       t.string :password
       t.string :summary
       t.text :description
-      t.integer :hit
-      t.integer :view
+      t.integer :like, default: 0
+      t.integer :view, default: 0
+      t.boolean :recruit, default: true
 
       t.timestamps null: false
     end

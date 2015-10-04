@@ -16,16 +16,47 @@ body {
 <ul class="collection">
   <% @ideas.each do |item| %>
     <li class="collection-item avatar">
-      <% if item.photos.first %>
-        <img src="<%= item.photos.first.img.url %>" alt="" class="circle">
-      <% else %>
-        <i class="material-icons circle">image</i>
-      <% end %>
-      <span class="title"><b><%= item.name %></b></span>
-      <p><%= item.summary%> <br>
-         Second Line
-      </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+      <a href="/ideas/detail/<%= item.id %>" class="black-text">
+        <% if item.photos.first %>
+          <img src="<%= item.photos.first.img.url %>" alt="" class="circle">
+        <% else %>
+          <i class="material-icons circle red">image</i>
+        <% end %>
+        <span class="title"><b><%= item.name %></b></span>
+        <p><%= item.summary%> <br>
+           Second Line
+        </p>
+        <a data-idea="<%= item.id %>" href="#!" class="favorite_btn secondary-content">
+          <% if item.favortie_users.include? current_user %>
+            <i class="material-icons red-text">star</i>
+          <% else %>
+            <i class="material-icons red-text">star_border</i>
+          <% end %>
+        </a>
+      </a>
     </li>
   <% end %>
 </ul>
+
+<script>
+$(document).ready(function(){
+  $('.favorite_btn').click(function(event){
+    event.preventDefault();
+    star = $(this)
+    $.ajax({
+      url: "/my/favorite",
+      dataType: "json",
+      data: {
+        idea_id : star.data('idea')
+      },
+      success: function(data){
+        if (data) {
+          star.find('i').text('star');
+        } else {
+          star.find('i').text('star_border');
+        };
+      }
+    });
+  });
+});
+</script>

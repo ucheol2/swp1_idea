@@ -13,3 +13,64 @@
  *= require_tree .
  *= require_self
  */
+.collection .collection-item.avatar {
+  background-color: rgba(255,255,255,0.6);
+  -webkit-transition: background 0.3s linear;
+  -moz-transition: background 0.3s linear;
+  -ms-transition: background 0.3s linear;
+  -o-transition: background 0.3s linear;
+  transition: background 0.3s linear;
+}
+
+.collection .collection-item.avatar:hover {
+  background-color: rgb(208, 208, 208);
+}
+
+.detail-wrapper {
+  background-color: black;
+  color: white;
+  border: solid 0.3em red;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  padding: 1em;
+}
+
+.detail-component p {
+  margin-left : 2em;
+}
+
+.reply-wrapper {
+  padding: 1em;
+  background-color: grey;
+  border-radius: 1em;
+}
+
+.reply-wrapper ul {
+  margin: 0;
+}
+
+.reply-wrapper i {
+  color: red;
+}
+
+.reply-wrapper p {
+  margin: 0;
+  padding: 0 0 0 1em;
+  border: solid 1px white;
+}
+
+#reply_form {
+  background-color: black;
+  border-radius: 1em;
+}
+
+.re_reply_form {
+  background-color: white;
+  border-radius: 0;
+  color: black;
+  padding-bottom: 1em;
+}
+
+.re_reply_form .row {
+  margin: 0;
+}

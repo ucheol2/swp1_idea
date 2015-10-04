@@ -1,2 +1,319 @@
-<h1>Ideas#detail</h1>
-<p>Find me in app/views/ideas/detail.html.erb</p>
+<style>
+.input-field .prefix.active {
+  color: #FF6262;
+}
+.input-field input[type=text]:focus + label {
+  color: #FF6262;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #FF6262;
+  box-shadow: 0 1px 0 0 #FF6262;
+}
+</style>
+
+<div class="row">
+  <div class="col s12">
+    <h1 class="center"><%= @idea.name %></h1>
+    <h5 class="center">
+      팀 : 
+      <% @idea.users.where(idea_users: {owned: true}).each do |item| %>
+        <span style="margin: 0 0.3em 0 0.3em"><%= item.name %></span>
+      <% end %>
+    </h5>
+    <br>
+    <div class="detail-wrapper">
+      <div class="right">
+        <a class="btn white black-text" style="cursor: default;">조회수: <%= @idea.view %></a>
+        <a id="like_btn" class="waves-effect waves-dark btn white black-text">
+          <i class="material-icons left">thumb_up</i> 
+          <% if @idea.liked_users.include? current_user %>
+            <span id="like_text">취소</span> 
+          <% else %>
+            <span id="like_text">좋아요</span> 
+          <% end %>
+          <span id="like_count"><%= @idea.like %></span>
+        </a>
+        <% if @idea.favortie_users.include? current_user %>
+          <a id="favorite_btn" class="waves-effect waves-dark btn white black-text"><span id="favorite_text">찜취소</span><i id="star" class="material-icons left">star</i></a>
+        <% else %>
+          <a id="favorite_btn" class="waves-effect waves-dark btn white black-text"><span id="favorite_text">찜하기</span><i id="star" class="material-icons left">star_border</i></a>
+        <% end %>
+      </div>
+      <div class="detail-component">
+        <h5><i class="material-icons">mode_edit</i>요약</h5>
+        <%= simple_format(@idea.summary) %>
+      </div>
+      <div class="detail-component">
+        <h5><i class="material-icons">description</i>상세 설명</h5>
+        <%= simple_format(@idea.description) %>
+      </div>
+      <div class="detail-component">
+        <h5><i class="material-icons">description</i>댓글</h5>
+        <div class="reply-wrapper">
+        
+          <div class="row">
+            <form id="reply_form" class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">comment</i>
+                  <input id="reply" type="text" required>
+                  <label for="reply">댓글 달기</label>
+                  <button class="right btn waves-effect waves-light white black-text" type="submit">
+                    작성
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <div id="reply_list">
+            <% @idea.replies.each do |item| %>
+              <ul id="reply<%= item.id %>" class="collapsible" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header black-text">
+                    <%= item.user.name %> : <span id="reply_content<%= item.id %>"><%= item.content %></span>
+                    <% if item.user == current_user %>
+                      <a data-reply="<%= item.id %>" class="delete_btn right"><i class="material-icons prefix">clear</i></a>
+                      <a class="modify_btn right modal-trigger" href="#modify<%= item.id %>"><i class="material-icons prefix">mode_edit</i></a>
+                    <% end %>
+                    <a class="right"><i class="material-icons prefix">comment</i></a>
+                  </div>
+                  <div class="collapsible-body">
+                    <form class="re_reply_form" data-reply="<%= item.id %>">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <i class="material-icons prefix">mode_edit</i>
+                          <input id="re_reply<%= item.id %>" type="text" required>
+                          <label for="re_reply<%= item.id %>">답글 달기</label>
+                          <button class="right btn waves-effect waves-light white black-text" type="submit">
+                            작성
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </li>
+                <div id="re_replies_list<%= item.id %>">
+                  <% item.re_replies.each do |rr| %>
+                    <p id="rr<%= rr.id %>">
+                      └ <%= rr.user.name %> : <%= rr.content %> 
+                      <% if rr.user == current_user %>
+                        <a href="#" data-re-reply="<%= rr.id %>" class="rr_delete_btn"><i class="tiny material-icons prefix">clear</i></a>
+                      <% end %>
+                    </p>
+                  <% end %>
+                </div>
+              </ul>
+              
+              <div id="modify<%= item.id %>" class="modal black-text" style="padding: 1em;">
+                <form class="reply_modify_form" data-reply="<%= item.id %>">
+                  <div class="input-field">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <input id="reply_modify<%= item.id %>" type="text" value="<%= item.content %>" required>
+                    <label for="reply_modify<%= item.id %>">댓글 수정</label>
+                    <div class="modal-footer">
+                      <a href="#!" class="modal-action modal-close waves-effect btn white black-text">닫기</a>
+                      <button class="btn waves-effect waves-light white black-text" type="submit" style="margin-right: 1em;">
+                        작성
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="center" style="margin-top: 3em;">
+        <a href="/ideas/board" class="waves-effect btn-flat white"><b>목록</b></a>
+      </div>
+    </div>
+    
+    <% if @idea.photos.first %>
+      <div class="slider">
+        <ul class="slides">
+          <% @idea.photos.each do |item| %>
+            <li>
+              <img src="<%= item.img.url %>">
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('.modal-trigger').leanModal();
+  $('.slider').slider({});
+  
+  $('#favorite_btn').click(function(){
+    
+    $.ajax({
+      url: "/my/favorite",
+      dataType: "json",
+      data: {
+        idea_id : "<%= @idea.id %>"
+      },
+      success: function(data){
+        if (data) {
+          $('#star').text('star');
+          $('#favorite_text').text('찜취소');
+        } else {
+          $('#star').text('star_border');
+          $('#favorite_text').text('찜하기');
+        };
+      }
+    });
+  });
+  
+  $('#like_btn').click(function(){
+    $.ajax({
+      url: "/my/like",
+      dataType: "json",
+      data: {
+        idea_id : "<%= @idea.id %>"
+      },
+      success: function(data){
+        $('#like_count').text(data.count);
+        if (data.liked) {
+          $('#like_text').text('취소');
+        } else {
+          $('#like_text').text('좋아요');
+        }
+      }
+    });
+  });
+  
+  $('#reply_form').submit(function(event){
+    event.preventDefault();
+    
+    $.ajax({
+      url: "/reply/create/<%= @idea.id %>",
+      dataType: "json",
+      data: { content: $('#reply').val() },
+      success: function(data){    
+        $('#reply').val('');
+        $('#reply').blur();
+        $('#reply_list').append(
+          '<ul id="reply'+ data.reply.id +'" class="collapsible" data-collapsible="accordion">' +
+            '<li>' +
+              '<div class="collapsible-header black-text">' +
+                data.user.name + ' : ' + '<span id="reply_content' + data.reply.id +'">' + data.reply.content +'</span>' +
+                '<a data-reply="' + data.reply.id + '" class="delete_btn right"><i class="material-icons prefix">clear</i></a>' +
+                '<a class="modify_btn right modal-trigger" href="#modify' + data.reply.id +'"><i class="material-icons prefix">mode_edit</i></a>' +
+                '<a class="right"><i class="material-icons prefix">comment</i></a>' +
+              '</div>' +
+              '<div class="collapsible-body">' +
+                '<form class="re_reply_form" data-reply="' + data.reply.id + '">' +
+                  '<div class="row">' +
+                    '<div class="input-field col s12">' +
+                      '<i class="material-icons prefix">mode_edit</i>' +
+                      '<input id="re_reply' + data.reply.id + '" type="text" required>' +
+                      '<label for="re_reply' + data.reply.id +'">답글 달기</label>' +
+                      '<button class="right btn waves-effect waves-light white black-text" type="submit">' +
+                        '작성' +
+                      '</button>' +
+                    '</div>' +
+                  '</div>' +
+                '</form>' +
+              '</div>' +
+            '</li>' +
+            '<div id="re_replies_list' + data.reply.id + '">' +
+            '</div>' +
+          '</ul>' +
+          
+          '<div id="modify' + data.reply.id + '" class="modal black-text" style="padding: 1em;">' +
+            '<form class="reply_modify_form" data-reply="' + data.reply.id + '">' +
+              '<div class="input-field">' +
+                '<i class="material-icons prefix">mode_edit</i>' +
+                '<input id="reply_modify' + data.reply.id + '" type="text" value="' + data.reply.content + '" required>' +
+                '<label class="active" for="reply_modify' + data.reply.id + '">댓글 수정</label>' +
+                '<div class="modal-footer">' +
+                  '<a href="#!" class="modal-action modal-close waves-effect btn white black-text">닫기</a>' +
+                  '<button class="btn waves-effect waves-light white black-text" type="submit" style="margin-right: 1em;">' +
+                    '작성' +
+                  '</button>' +
+                '</div>' +
+              '</div>' +
+            '</form>' +
+          '</div>'
+        );
+        $('.collapsible').collapsible({});
+        $('.modal-trigger').leanModal();
+      }
+    });
+  });
+  
+  $(document).on('submit','.re_reply_form', function(event){
+    event.preventDefault();
+    var reply_id = $(this).data('reply').toString();
+    
+    $.ajax({
+      url: "/reply/re_create/" + reply_id,
+      dataType: "json",
+      data: {
+        content: $('#re_reply'+reply_id).val()
+      },
+      success: function(data){
+        $('#re_reply'+reply_id).val('');
+        $('#re_reply'+reply_id).blur();
+        $('#re_replies_list'+reply_id).append(
+          '<p id="rr' + data.re_reply.id + '">' +
+            '└ ' + data.user.name + ' : ' + data.re_reply.content +
+            '<a data-re-reply="' + data.re_reply.id + '" class="rr_delete_btn"> <i class="tiny material-icons prefix">clear</i></a>' +
+          '</p>'
+        );
+      }
+    });
+  });
+  
+  $(document).on('click','.delete_btn', function(event){
+    event.preventDefault();
+    if (confirm('정말 삭제하시겠습니까?')) {
+      var reply_id = $(this).data('reply').toString();
+      $('#reply'+reply_id).remove();
+      $('#modify'+reply_id).remove();
+      $.ajax({
+        url: "/reply/delete/" + reply_id,
+        dataType: "json"
+      });
+    };
+  });
+  
+  $(document).on('submit','.reply_modify_form', function(event){
+    event.preventDefault();
+    if (confirm('정말 수정하시겠습니까?')) {
+      var reply_id = $(this).data('reply').toString();
+      var content = $('#reply_modify' + reply_id).val()
+      $.ajax({
+        url: "/reply/modify/" + reply_id,
+        dataType: "json",
+        data: { content: content}
+      });
+      $('#reply_modify' + reply_id).val('');
+      $('#reply_modify' + reply_id).blur();
+      $('#modify' + reply_id).closeModal();
+      $('#reply_content' +reply_id).text(content);
+    };
+  });
+  
+  $(document).on('click','.rr_delete_btn',function(event){
+    event.preventDefault();
+    if (confirm('정말 삭제하시겠습니까?')) {
+      var rr_id = $(this).data('re-reply').toString();
+      $('#rr'+rr_id).remove();
+      $.ajax({
+        url: "/reply/re_delete/" + rr_id,
+        dataType: "json"
+      });
+    }
+  });
+  
+});
+
+</script>

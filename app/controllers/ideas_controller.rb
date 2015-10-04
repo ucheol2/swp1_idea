@@ -3,10 +3,19 @@ class IdeasController < ApplicationController
   before_action :authenticate_user!, except: [:board]
   
   def board
-    @ideas = Idea.all
+    @ideas = Idea.all.reverse
   end
 
   def detail
+    @idea = Idea.find(params[:id].to_i)
+    
+    ViewCounter.create(idea: @idea, ip_address: request.remote_ip)
+    
+    @idea.set_view_count
+    
+    @liked = @idea.users.where()
+    
+    @reply = Reply.new
   end
   
   def new

@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003164902) do
+ActiveRecord::Schema.define(version: 20151004033424) do
 
   create_table "idea_users", force: :cascade do |t|
     t.integer  "idea_id"
     t.integer  "user_id"
     t.boolean  "favorite"
     t.boolean  "owned"
+    t.boolean  "like"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -27,15 +28,32 @@ ActiveRecord::Schema.define(version: 20151003164902) do
     t.string   "password"
     t.string   "summary"
     t.text     "description"
-    t.integer  "hit"
-    t.integer  "view"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "like",        default: 0
+    t.integer  "view",        default: 0
+    t.boolean  "recruit",     default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "photos", force: :cascade do |t|
     t.integer  "idea_id"
     t.string   "img"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "re_replies", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "reply_id"
+    t.string   "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "replies", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "idea_id"
+    t.string   "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

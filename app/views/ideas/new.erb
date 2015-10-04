@@ -9,7 +9,7 @@ body {
   <h1>아이디어 등록</h1>
   <br>
   <br>
-  <%= form_for @idea, url: {action: "create"}, html: {class: "col s12", method: "post", multipart: "true"} do |form| %>
+  <%= form_for @idea, url: {action: "create"}, html: {class: "col s12", method: "post", multipart: "true", id: "new_form"} do |form| %>
   
     <div class="row">
       <div class="input-field col s6">
@@ -61,4 +61,16 @@ body {
 </div>
 
 <script>
+$(document).ready(function(){
+  $('#new_form').submit(function(){
+    if ($('#summary').val().length > 36) {
+      alert("한줄 요약은 36자 까지 가능합니다.");
+      return false;
+    };
+    if (!$('#description').val()) {
+      alert("상세 설명을 적어주세요.");
+      return false;
+    };
+  });
+});
 </script>
