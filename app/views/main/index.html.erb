@@ -19,7 +19,23 @@ body {
         <%= link_to "로그인", new_user_session_path, class: "waves-effect waves-light btn black" %> &nbsp 
         <%= link_to "회원가입", new_user_registration_path, class: "waves-effect waves-light btn black" %>
       <% end %>
-      
+      <p class="center"><b>
+        <br>
+        다음주 중에 불편한 점을 업데이트를 할 예정입니다! 구체적인 사항이 있다면 아래에 적어서 전송해주세요!<br>
+        사진이 안올라가던 문제는 고쳐졌고 (수정하기를 통해 기존의 게시물에도 다시 올릴 수 있습니다)<br>
+        현재는 아마 아이디어 삭제기능..!?이 추가될 예정입니다!
+      </b></p>
+      <%= form_for @claim, url: "/main/claim", method: "post" do |form| %>
+        <div class="row">
+          <div class="input-field col s12">
+            <%= form.text_area :content, class: "materialize-textarea", id: "content", required: true %>
+            <label for="content">설명</label>
+          </div>
+          <button id="submit_btn" class="btn waves-effect right white black-text" type="submit">전송
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
