@@ -132,7 +132,8 @@ body {
       <div class="center" style="margin-top: 3em;">
         <a href="/ideas/board" class="waves-effect btn-flat white"><b>목록</b></a>
         <% if @idea.owned_users.include? current_user %>
-          <a href="/ideas/edit/<%= @idea.id %>" class="waves-effect btn-flat white"><b>수정하기</b></a><br><br>
+          <a href="/ideas/edit/<%= @idea.id %>" class="waves-effect btn-flat white"><b>수정하기</b></a>
+          <a href="/ideas/delete/<%= @idea.id %>" id="remove_btn" class="waves-effect btn-flat white"><b>삭제하기</b></a><br><br>
           <% if @idea.recruit? %>
             <a id="apply_btn" data-state="true" class="waves-effect btn-flat white"><b>팀원 구하기 중지</b></a>
           <% else %>
@@ -347,6 +348,10 @@ $(document).ready(function(){
         }
       }
     });
+  });
+  
+  $('#remove_btn').click(function(){
+    return confirm("정말로 게시물을 삭제하시겠습니까?");
   });
   
 });

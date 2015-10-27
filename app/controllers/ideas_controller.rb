@@ -69,6 +69,17 @@ class IdeasController < ApplicationController
     redirect_to "/ideas/detail/#{idea.id}"
   end
   
+  def delete
+    
+    idea = Idea.find(params[:id].to_i)
+    
+    if idea.owned_users.include? current_user
+      idea.destroy
+    end
+    
+    redirect_to "/ideas/board"
+  end
+  
   def recruit
     idea = Idea.find(params[:idea_id].to_i)
     if idea.owned_users.include? current_user
